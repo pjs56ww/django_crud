@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Insert Name
+{% endblock title %}
+
+{% block body %}
+  <h1>전생직업 확인</h1>
+  {% comment %} GET /jobs/ => action이 비어있을 때 {% endcomment %}
+  <form action="{% url 'jobs:past_job' %}" method="POST">
+    {% csrf_token %}
+    <label for="name">이름을 입력하세요</label><br>
+    
+    <input type="text" name="Name"><br>
+    <button type="submit">실행하기</button>
+  </form>
+  <form action="{% url 'jobs:delete' %}" method="POST" onclick="return confirm('Are you sure?')">
+    {% csrf_token %}
+    <button type="submit">[삭제하기]</button>
+  </form>
+{% endblock body %}

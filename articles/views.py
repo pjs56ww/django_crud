@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article
+from .models import Comment
 
 # templates 폴더 생성 => templates가 중복되지 않도록 templates 내에 articles 폴더 추가로 생성
 
@@ -17,8 +18,14 @@ def index(request):
 # Detail 페이지를 보여준다.
 def detail(request, article_pk):
     # SELECT * FROM article WHERE pk=
-    article = Article.objects.get(pk=article_pk)
-    context = {'article': article}
+    article = get_object_or_404(Article, pk=article_pk)
+
+    comments = article.comment_set.all()
+
+    context = {
+        'article': article,
+        'comments': comments,
+        }
     return render(request, 'articles/detail.html', context)
 
 
@@ -81,3 +88,17 @@ def update(request, article_pk):
     else:
         context = {'article': article}
         return render(request, 'articles/update.html', context)
+
+def comments_create(request, article_pk):
+    # article_pk 에 해당하는 article 에 새로운 comment 생성
+    # 생성한 다음 article detail page 로 redirect
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        comment = Comment()
+        comment.content = content
+        comment.article = article
+        # comment.article_id = article_pk
+        comment.save()
+        
+    return redirect('articles:detail', article_pk)

@@ -10,3 +10,16 @@ class Article(models.Model):
 # $python manage.py makemigrations  => django한테 model을 만든 사항을 알려줌 0001_initial 이 만들어짐
 # $python manage.py migrate  => migrations 적용
 # 다음 step crud/urls.py setting
+
+class Comment(models.Model):
+    # on_delete=models.CASCADE == 'Article 이 삭제되면 Comment 도 함께 삭제'
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)  # 추가 됐을때만
+    updated_at = models.DateTimeField(auto_now=True)  # 항상
+
+    class Meta:
+        ordering = ['-pk']
+
+    def __str__(self):
+        return self.content

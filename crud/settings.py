@@ -58,7 +58,9 @@ ROOT_URLCONF = 'crud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 프로젝트 전체의 html 템플릿을 만들기 위한 디렉토리 설정
+        # os.path.join(Root_path, 'application_name', 'application_templates')
+        'DIRS': [os.path.join(BASE_DIR, 'crud', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

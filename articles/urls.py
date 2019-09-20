@@ -3,12 +3,14 @@ from . import views  # 같은 articles 내 view 를 가져옴
 
 
 # /articles/ ____ , 사용자는 이미 articles 까지 들어온 상태
+app_name = 'articles'
 urlpatterns = [
-    path('', views.index),
-    path('<int:article_pk>/', views.detail),
+    path('', views.index, name='index'),
+    path('<int:article_pk>/', views.detail, name='detail'),
 
-    path('new/', views.new),  # views 의 new함수, new.html 생성 필요
-    path('create/', views.create),
+    # path('new/', views.new, name='new'),  # views 의 new함수, new.html 생성 필요
+    
+    path('create/', views.create, name='create'),
     # /articles/4/delete/
-    path('<int:article_pk>/delete/', views.delete),
+    path('<int:article_pk>/delete/', views.delete, name='delete'),
 ]

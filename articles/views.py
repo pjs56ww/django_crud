@@ -23,32 +23,60 @@ def detail(request, article_pk):
 
 
 # 입력 페이지 제공
-def new(request):
-    return render(request, 'articles/new.html')
+# GET/ articles/create/
+# def new(request):
+#     return render(request, 'articles/new.html')
 
 
 # 데이터를 전달 받아서 article 생성
+# POST /articles/create/
 def create(request):
 
-    # new 가 전달한 data들을 받기
-    title = request.GET.get('title')
-    content = request.GET.get('content')
+    # 만약 POST 일 경우 사용자 데이터 받아서 article 생성
+    if request.method == 'POST':
+        # new 가 전달한 data들을 받기
+        title = request.POST.get('title')  # GET에서 POST로 변경
+        content = request.POST.get('content')
 
-    # 인스턴스 생성
-    article = Article()
-    article.title = title
-    article.content = content
-    article.save()
+        # 인스턴스 생성
+        article = Article()
+        article.title = title
+        article.content = content
+        article.save()
 
-    # <a href="/articles/">와 같은 역할 => redirect import해줘야함
+        # <a href="/articles/">와 같은 역할 => redirect import해줘야함
 
 
-    return redirect(f'/articles/{article.pk}/')
+        return redirect('articles:detail', article.pk)
+    
+    # 만약 GET 요청으로 들어오면 html 페이지 rendering
+    else:
+        return render(request, 'articles/create.html')
 
 
 # 사용자로부터 받은 article_pk 값에 해당하는 데이터 삭제
 def delete(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    article.delete()
+    if request.method == 'POST':
+        article.delete()
 
-    return redirect('/articles/')
+        return redirect('articles:index')
+    else:
+        return redirect('articles:detail', article_pk)
+
+
+def update(request, article_pk):
+    # POST /articles/5/update/ : 실제 update 로직이 수행
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        article.title = title
+        article.content = content
+        article.save()
+        return redirect('articles:detail', article.pk)
+    
+    else:
+        content = {'article':article}
+        return render(request, 'article/update.html', context)
+        

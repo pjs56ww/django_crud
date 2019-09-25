@@ -1,11 +1,15 @@
 
 
 {% extends 'base.html' %}
+{% comment %} static 파일들을 불러오겠다. {% endcomment %}
+{% load static %}
 
 {% block title %}Articles{% endblock title %}
 {% block body %}
   <h1>Articles</h1>
   <a href="{% url 'articles:create' %}">[작성하기]</a>
+  {% comment %} url 을 생성해주는게 static tag {% endcomment %}
+  <img src="{% static 'articles/images/식빵 고양이.jpg' %}" alt="식빵 고양이">
   <hr>
   {% for article in articles %}
     <div>

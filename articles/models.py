@@ -1,4 +1,6 @@
 from django.db import models
+from imagekit.processors import Thumbnail
+from imagekit.models import ImageSpecField
 
 # Create your models here.
 class Article(models.Model):
@@ -8,6 +10,13 @@ class Article(models.Model):
     # null: DB와 관련되어 있다.
     # '', Null?
     image = models.ImageField(blank=True)
+    image_thumbnail = ImageSpecField(
+        source='image',
+        processors=[Thumbnail(200, 200)],
+        format='JPEG',
+        options={'quality': 90},
+
+    )
     created_at = models.DateTimeField(auto_now_add=True) # 추가할 때 현재시간을 기록하겠다??
     updated_at = models.DateTimeField(auto_now=True) # 언제든지 자동으로 현재시간을 기록하겠다.
     

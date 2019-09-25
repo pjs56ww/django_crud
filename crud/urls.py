@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include  # include 반드시 선언 필요
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # 사용자가 가장 먼저 들어오는 entry point
 urlpatterns = [
     
@@ -27,3 +30,7 @@ urlpatterns = [
     path('articles/', include('articles.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
+# 사용자가 Media 파일이 있는 곳으로 올 수 있는 경로를 추가한다.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

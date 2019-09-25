@@ -19,3 +19,6 @@ urlpatterns = [
     # /articles/3/comments/2/delete/
     path('<int:article_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, name='comments_delete'),
 ]
+
+
+

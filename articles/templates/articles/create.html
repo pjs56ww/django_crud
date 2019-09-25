@@ -3,12 +3,14 @@
 
 {% block body %}
   <h1>New Article</h1>
-  <form action="{% url 'articles:create' %}" method="POST"> <br>
+  <form action="{% url 'articles:create' %}" method="POST" enctype="multipart/form-data"> <br>
     {% comment %} 해킹에 대해 자유롭다는 것을 보장하기 위해 {% endcomment %}
     {% csrf_token %}  
 
     <input type="text" name="title"> <br>
     <textarea name="content" cols="30" rows="10"></textarea><br>
+    <label for="image">이미지</label>
+    <input type="file" name="image" id="image" accept="image/*"><br>
     <button type="submit">생성하기</button>
   </form>
 {% endblock body %}

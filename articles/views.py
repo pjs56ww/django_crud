@@ -45,9 +45,10 @@ def create(request):
         # new 가 전달한 data들을 받기
         title = request.POST.get('title')  # GET에서 POST로 변경
         content = request.POST.get('content')
-
+        image = request.FILES.get('image')
         # 인스턴스 생성
-        article = Article()
+        article = Article(title = title, content=content, image= image)
+
         article.title = title
         article.content = content
         article.save()
@@ -80,6 +81,11 @@ def update(request, article_pk):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
+        image = request.FILES.get('image')
+
+        if image:
+            article.image = image
+
         article.title = title
         article.content = content
         article.save()
@@ -114,4 +120,3 @@ def comments_delete(request, article_pk, comment_pk):
 
     # detail 페이지로 이동
     return redirect('articles:detail', article_pk)
-    

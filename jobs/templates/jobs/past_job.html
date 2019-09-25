@@ -4,4 +4,7 @@
 
 {% block body %}
 <h1>{{ job.Name }}은 전생에 {{ job.past_job }}이었습니다.</h1>
+{% if job.profile_image %}
+<img src="{{ job.profile_image }}" alt="job.profile_image">
+{% endif %}
 {% endblock body %}
